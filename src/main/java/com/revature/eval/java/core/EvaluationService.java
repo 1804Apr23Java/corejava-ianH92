@@ -30,8 +30,36 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		if(phrase == null) return "";
+		
+		int len = phrase.length();
+		int index = 0;
+		StringBuilder acroynm = new StringBuilder();
+		
+		//Eliminate leading whitespace
+		while(index < len && phrase.charAt(index) == ' ') {
+			index++;
+		}
+		
+		//Append first character
+		if(index < len) {
+			acroynm.append(phrase.charAt(index));
+			index++;
+		}
+		
+		for(; index < len; index++) {
+			if(phrase.charAt(index) == ' ') {
+				//Consume whitespace
+				while(index < len && phrase.charAt(index) == ' ') {
+					index++;
+				}
+				if(index < len) {
+					acroynm.append(phrase.charAt(index));
+				}
+			}
+		}
+		
+		return acroynm.toString().toUpperCase();
 	}
 
 	/**
@@ -420,7 +448,7 @@ public class EvaluationService {
 	}
 
 	/**
-	 * 16. Determine if a sentence is a pangram. A pangram (Greek: παν γράμμα, pan
+	 * 16. Determine if a sentence is a pangram. A pangram (Greek: Ï€Î±Î½ Î³Ï�Î¬Î¼Î¼Î±, pan
 	 * gramma, "every letter") is a sentence using every letter of the alphabet at
 	 * least once. The best known English pangram is:
 	 * 
