@@ -32,34 +32,26 @@ public class EvaluationService {
 	public String acronym(String phrase) {
 		if(phrase == null) return "";
 		
+		phrase = phrase.toUpperCase();
 		int len = phrase.length();
+		StringBuilder acronym = new StringBuilder();
+		
 		int index = 0;
-		StringBuilder acroynm = new StringBuilder();
-		
-		//Eliminate leading whitespace
-		while(index < len && phrase.charAt(index) == ' ') {
-			index++;
-		}
-		
-		//Append first character
-		if(index < len) {
-			acroynm.append(phrase.charAt(index));
-			index++;
-		}
-		
-		for(; index < len; index++) {
-			if(phrase.charAt(index) == ' ') {
-				//Consume whitespace
-				while(index < len && phrase.charAt(index) == ' ') {
-					index++;
-				}
-				if(index < len) {
-					acroynm.append(phrase.charAt(index));
-				}
+		char curr = 'a'; //temp
+		char prev = ' ';
+		while(index < len) {
+			curr = phrase.charAt(index);
+			
+			if(curr != ' ') {
+				if((prev == ' ' || prev == '-') && (curr >= 'A' && curr <= 'Z'))
+					acronym.append(curr);
 			}
+			
+			prev = curr;
+			index++;
 		}
 		
-		return acroynm.toString().toUpperCase();
+		return acronym.toString();
 	}
 
 	/**
