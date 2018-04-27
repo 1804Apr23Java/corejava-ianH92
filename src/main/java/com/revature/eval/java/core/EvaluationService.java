@@ -140,8 +140,19 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		string = string.toUpperCase();
+		int[] vals = {1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10};
+		
+		int score = 0;
+		for(int i = 0; i < string.length(); i++) {
+			
+			if(string.charAt(i) < 'A' || string.charAt(i) > 'Z') { //invalid input
+				continue;
+			}
+			
+			score += vals[string.charAt(i) - 'A'];
+		}
+		return score;
 	}
 
 	/**
