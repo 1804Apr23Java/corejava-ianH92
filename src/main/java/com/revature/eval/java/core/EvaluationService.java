@@ -283,8 +283,24 @@ public class EvaluationService {
 		private List<T> sortedList;
 
 		public int indexOf(T t) {
-			// TODO Write an implementation for this method declaration
-			return 0;
+			int high = sortedList.size() - 1;
+			int low = 0;
+			
+			while(low <= high) {
+				int middle = (high + low) / 2;
+				
+				int comparison =  ((Comparable<T>) this.sortedList.get(middle)).compareTo(t);
+				
+				if(comparison == 0) {
+					return middle;
+				} else if(comparison == 1) {
+					high = middle - 1;
+				} else {
+					low = middle + 1;
+				}
+			}
+			
+			return -1;
 		}
 
 		public BinarySearch(List<T> sortedList) {
