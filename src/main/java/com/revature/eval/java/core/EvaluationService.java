@@ -336,8 +336,35 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String toPigLatin(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		if(string == null || string.length() == 0) return null;
+		
+		string = string.trim();
+		String[] l = string.split(" ");
+		
+		String result = "";
+		for(int i = 0; i < l.length; i++) {
+			String s = l[i];
+			
+			char f = s.charAt(0);
+			if(f == 'A' || f == 'a' || f == 'E' || f == 'e' || f == 'I' || f == 'i' || f == 'O' || 
+			   f == 'o' || f == 'U' || f == 'u') {
+				
+				result += (s + "ay");
+			} else {
+				int j = 0;
+				while(j < s.length() && f != 'A' && f != 'a' && f != 'E' && f != 'e' && f != 'I' && f != 'i' && f != 'O' && 
+						   f != 'o' && f != 'U' && f != 'u') {
+					f = s.charAt(j);
+					j++;
+				}
+				j--;
+				result += (s.substring(j) + s.substring(0, j) + "ay");
+			}
+			
+			if(i < l.length - 1) result += " ";
+		}
+		
+		return result;
 	}
 
 	/**
