@@ -1,6 +1,7 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -179,8 +180,28 @@ public class EvaluationService {
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
 	public String cleanPhoneNumber(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		if(string == null) throw new IllegalArgumentException("Null input invalid");
+		
+		StringBuilder phoneNumber = new StringBuilder();
+		int digitCount = 0;
+		
+		for(int i = 0; i < string.length(); i++) {
+			char num = string.charAt(i);
+			if(num >= '0' && num <= '9') {
+				phoneNumber.append(num);
+				digitCount++;
+			}
+		}
+		
+		if(digitCount == 10) {
+			return phoneNumber.toString();
+		} else if(digitCount == 11) {
+			if(phoneNumber.toString().charAt(0) == '1') {
+				return phoneNumber.toString().substring(1);
+			} 
+		}
+		
+		throw new IllegalArgumentException("Invalid Input");
 	}
 
 	/**
@@ -193,8 +214,34 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Map<String, Integer> wordCount(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		if(string == null || string.length() == 0) return map;
+		
+		int len = string.length();
+		char[] c = string.toCharArray();
+		int p1 = 0;
+		int p2 = 0;
+		
+		while(p2 < len) {
+			while(p1 < len && (c[p1] == ' ' || c[p1] == ',' || c[p1] == '\n' || c[p1] == '\t')) {
+				p1++;
+			}
+			p2 = p1;
+			
+			while(p2 < len && c[p2] != ' ' && c[p2] != ',' && c[p2] != '\n' && c[p2] != '\t') {
+				p2++;
+			}
+			
+			if(p2 <= len) {
+				String sub = string.substring(p1, p2);
+				Integer count = map.get(sub);
+				count = (count == null) ? new Integer(1) : new Integer(count.intValue() + 1);
+				map.put(sub, count);
+			}
+			p1 = p2;
+		}
+		
+		return map;
 	}
 
 	/**
