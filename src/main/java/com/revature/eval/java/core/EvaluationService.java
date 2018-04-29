@@ -355,10 +355,19 @@ public class EvaluationService {
 				result += (s + "ay");
 			} else {
 				int j = 0;
-				while(j < s.length() && f != 'A' && f != 'a' && f != 'E' && f != 'e' && f != 'I' && f != 'i' && f != 'O' && 
-						   f != 'o' && f != 'U' && f != 'u') {
-					f = s.charAt(j);
-					j++;
+				
+				if(f == 'q' || f == 'Q') {
+					while(j < s.length() && f != 'A' && f != 'a' && f != 'E' && f != 'e' && f != 'I' && f != 'i' && f != 'O' && 
+							   f != 'o') {
+						f = s.charAt(j);
+						j++;
+					}
+				} else {
+					while(j < s.length() && f != 'A' && f != 'a' && f != 'E' && f != 'e' && f != 'I' && f != 'i' && f != 'O' && 
+							   f != 'o' && f != 'U' && f != 'u') {
+						f = s.charAt(j);
+						j++;
+					}
 				}
 				j--;
 				result += (s.substring(j) + s.substring(0, j) + "ay");
