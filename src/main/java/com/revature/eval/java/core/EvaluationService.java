@@ -838,8 +838,110 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int solveWordProblem(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		int len = string.length();
+		
+		int num1 = 0;
+		int num2 = 0;
+		
+		int operationVal = -1;
+		
+		boolean num1Assigned = false;
+		boolean num2Assigned = false;
+		boolean extraNums = false;
+		boolean operationAssigned = false;
+		
+		try {
+			for(int i = 0; i < len; i++) {
+				char curr = string.charAt(i);
+				
+				if(curr >= '0' && curr <= '9') {
+					boolean negative = (i > 0 && string.charAt(i - 1) == '-') ? true : false;
+					
+					int index = i;
+					while(i <  len && (string.charAt(i) >= '0' && string.charAt(i) <= '9')) {
+						i++;
+					}
+					
+					if(!num1Assigned){
+						num1 = Integer.parseInt(string.substring(index, i));
+						num1 = (negative) ? (-1 * num1) : num1;
+						num1Assigned = true;
+					} else if(num1Assigned && !num2Assigned) {
+						num2 = Integer.parseInt(string.substring(index, i));
+						num2 = (negative) ? (-1 * num2) : num2;
+						num2Assigned = true;
+					} else {
+						extraNums = true;
+					}
+				}
+				
+				if(curr == 'm' || curr == 'M' || curr == 't' || curr == 'T' || curr == 's' || curr == 'S' || curr == 'a' || curr == 'A' || 
+				   curr == 'p' || curr =='P' || curr == 'd' || curr == 'D') {
+					
+					int index = i;
+					while(i <  len && ((string.charAt(i) >= 'a' && string.charAt(i) <= 'z') || (string.charAt(i) >= 'A' && string.charAt(i) <= 'Z'))) {
+						i++;
+					}
+					
+					if(i < len && !operationAssigned) {
+						String operation = string.substring(index, i);
+						
+						if(operation.equalsIgnoreCase("subtracted") || operation.equalsIgnoreCase("minus")) {
+							operationVal = 0;
+							operationAssigned = true;
+						} else if(operation.equalsIgnoreCase("multiplied") || operation.equalsIgnoreCase("times")) {
+							operationVal = 1;
+							operationAssigned = true;
+						} else if(operation.equalsIgnoreCase("added") || operation.equalsIgnoreCase("plus")) {
+							operationVal = 2;
+							operationAssigned = true;
+						} else if(operation.equalsIgnoreCase("divided")) {
+							operationVal = 3;
+							operationAssigned = true;
+						} else {
+							//Skip
+						}
+					}
+				}
+			}
+		} catch(NumberFormatException e) {
+			throw new IllegalArgumentException("Number in expression is to large for Java int");
+		}
+		
+		if(num1Assigned && num2Assigned && !extraNums && operationVal >= 0 && operationVal <=3) {
+			switch(operationVal) {
+				case 0: long result = (long) num1 - (long) num2;
+						if(result < Integer.MIN_VALUE || result > Integer.MAX_VALUE) {
+							throw new IllegalArgumentException("Result of subtraction = " + result + ", wont fit in Java int");
+						} else {
+							return(num1  - num2);
+						}
+				case 1: result = (long) num1 * (long) num2;
+						if(result < Integer.MIN_VALUE || result > Integer.MAX_VALUE) {
+							throw new IllegalArgumentException("Result of multiplication = " + result + ", wont fit in Java int");
+						} else {
+							return(num1  * num2);
+						}
+				case 2: result = (long) num1 + (long) num2;
+						if(result < Integer.MIN_VALUE || result > Integer.MAX_VALUE) {
+							throw new IllegalArgumentException("Result of addition = " + result + ", wont fit in Java int");
+						} else {
+							return(num1  + num2);
+						}
+				case 3: if(num2 == 0) {
+							throw new IllegalArgumentException("Division by zero not allowed");
+						} else {
+							return(num1 / num2);
+						}
+			}
+		} 
+		
+		String msg = "";
+		if(operationVal == -1) msg += "Invalid input, no operation specified\n";
+		if(!num1Assigned) msg += "No numbers in expression\n";
+		if(!num2Assigned) msg += "Only one number in expression\n";
+		if(extraNums) msg += "More than two numbers in expression\n";
+		throw new IllegalArgumentException(msg);
 	}
 
 }
