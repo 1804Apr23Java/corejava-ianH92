@@ -724,8 +724,25 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		HashMap<Integer, Integer> map = new HashMap<>();
+		int sum = 0;
+		
+		for(int j = 0; j < set.length; j++) {
+			int curr = set[j];
+			int multiple = 1;
+			int val = curr * multiple;
+			
+			while(val < i) {
+				Integer check = map.get(val);
+				sum += (check == null) ? val : 0;
+				map.put(val, 1);
+				
+				
+				multiple++;
+				val = curr * multiple;
+			}
+		}
+		return sum;
 	}
 
 	/**
