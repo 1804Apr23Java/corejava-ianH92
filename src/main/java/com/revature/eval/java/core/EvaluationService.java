@@ -560,8 +560,35 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String encode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			char[] lowerCase = {'z', 'y', 'x', 'w', 'v', 'u', 't', 's', 'r', 'q', 'p', 'o', 'n', 
+								'm', 'l', 'k', 'j', 'i', 'h', 'g', 'f', 'e', 'd', 'c', 'b', 'a'};
+			
+			StringBuilder encodedString = new StringBuilder();
+			int groupingCount = 0;
+			
+			for(int i = 0; i < string.length(); i++) {
+				char curr = string.charAt(i);
+				
+				if(groupingCount == 5) {
+					encodedString.append(" ");
+					groupingCount = 0;
+				}
+				
+				if(curr >= 'a' && curr <= 'z') {
+					encodedString.append(lowerCase[curr - 'a']);
+					groupingCount++;
+				} else if(curr >= 'A' && curr <= 'Z') {
+					encodedString.append(lowerCase[curr - 'A']);
+					groupingCount++;
+				} else if(curr >= '0' && curr <= '9') {
+					encodedString.append(curr);
+					groupingCount++;
+				}
+			}
+			
+			//Remove extra space at end if necessary
+			String result = encodedString.toString();
+			return (result.charAt(result.length() - 1) == ' ') ? result.substring(0, result.length() - 1) : result;
 		}
 
 		/**
