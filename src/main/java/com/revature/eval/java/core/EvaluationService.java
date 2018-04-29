@@ -598,8 +598,21 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String decode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			char[] lowerCase = {'z', 'y', 'x', 'w', 'v', 'u', 't', 's', 'r', 'q', 'p', 'o', 'n', 
+					'm', 'l', 'k', 'j', 'i', 'h', 'g', 'f', 'e', 'd', 'c', 'b', 'a'};
+			
+			StringBuilder plain = new StringBuilder();
+			
+			for(int i = 0; i < string.length(); i++) {
+				char curr = string.charAt(i);
+				if(curr >= 'a' && curr <= 'z')  {
+					plain.append(lowerCase[curr - 'a']);
+				} else if(curr >= '0' && curr <= '9') {
+					plain.append(curr);
+				}
+			}
+			
+			return plain.toString();
 		}
 	}
 
