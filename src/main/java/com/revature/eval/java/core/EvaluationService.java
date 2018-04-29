@@ -475,8 +475,21 @@ public class EvaluationService {
 		}
 
 		public String rotate(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			char[] cipherText = new char[string.length()];
+			
+			for(int i = 0; i < string.length(); i++) {
+				char curr = string.charAt(i);
+				
+				if(curr >= 'a' && curr <= 'z') {
+					cipherText[i] = (curr + this.key <= 'z') ? (char) (curr + this.key) : (char) (((curr + this.key) % 'z') + ('a' - 1));
+				} else if(curr >= 'A' && curr <= 'Z') {
+					cipherText[i] = (curr + this.key <= 'Z') ? (char) (curr + this.key) : (char) (((curr + this.key) % 'Z') + ('A' - 1));
+				} else {
+					cipherText[i] = curr;
+				}
+			}
+			
+			return new String(cipherText);
 		}
 
 	}
