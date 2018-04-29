@@ -766,7 +766,7 @@ public class EvaluationService {
 	 * then subtract 9 from the product. The results of our doubling:
 	 * 
 	 * 8569 2478 0383 3437 Then sum all of the digits:
-	 * 
+	 *
 	 * 8+5+6+9+2+4+7+8+0+3+8+3+3+4+3+7 = 80 If the sum is evenly divisible by 10,
 	 * then the number is valid. This number is valid!
 	 * 
@@ -782,8 +782,32 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isLuhnValid(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		int len = string.length();
+		if(len <= 1) return false;
+		
+		int[] val = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+		int isEven = 1;
+		int sum = 0;
+		
+		for(int i = (len - 1); i >= 0; i--) {
+			char curr = string.charAt(i);
+			
+			if(curr >= '0' && curr <= '9') {
+				if(isEven % 2 == 0) {
+					sum += ((val[curr - '0'] * 2) > 9) ?  ((val[curr - '0'] * 2) - 9) : (val[curr - '0'] * 2);
+					isEven++;
+				} else {
+					sum += val[curr - '0'];
+					isEven++;
+				}
+			} else if (curr == ' ') {
+				//skip
+			} else {
+				return false;
+			}
+		}
+		
+		return (sum % 10 == 0) ? true : false;
 	}
 
 	/**
